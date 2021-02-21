@@ -1,0 +1,1 @@
+# Visual Cryptography for Colour images
