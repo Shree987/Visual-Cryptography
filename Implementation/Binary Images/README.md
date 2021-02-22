@@ -1,1 +1,0 @@
-# Visual Cryptography for Binary images
