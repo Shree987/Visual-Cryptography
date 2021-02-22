@@ -1,4 +1,4 @@
-# XOR implementation for Binary Image
+# XOR implementation for Colour Image
 
 import numpy as np
 from PIL import Image

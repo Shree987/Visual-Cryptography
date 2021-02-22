@@ -1,25 +1,25 @@
-# Modular Arithmetic implementation for Colour Image
+# Modular Arithmetic implementation for Grayscale Image
 
 import numpy as np
 from PIL import Image
 
 def encrypt(input_image, share_size):
     image = np.asarray(input_image)
-    (row, column, depth) = image.shape
-    shares = np.random.randint(0, 256, size=(row, column, depth, share_size))
-    shares[:,:,:,-1] = image.copy()
+    (row, column) = image.shape
+    shares = np.random.randint(0, 256, size=(row, column, share_size))
+    shares[:,:,-1] = image.copy()
     for i in range(share_size-1):
-        shares[:,:,:,-1] = (shares[:,:,:,-1] + shares[:,:,:,i])%256
+        shares[:,:,-1] = (shares[:,:,-1] + shares[:,:,i])%256
 
     return shares
 
 def decrypt(shares):
-    (row, column, depth, share_size) = shares.shape
+    (row, column, share_size) = shares.shape
     shares_image = shares.copy()
     for i in range(share_size-1):
-    	shares_image[:,:,:,-1] = (shares_image[:,:,:,-1] - shares_image[:,:,:,i] + 256)%256
+    	shares_image[:,:,-1] = (shares_image[:,:,-1] - shares_image[:,:,i] + 256)%256
 
-    final_output = shares_image[:,:,:,share_size-1]
+    final_output = shares_image[:,:,share_size-1]
     output_image = Image.fromarray(final_output.astype(np.uint8))
     return output_image
 
@@ -38,7 +38,7 @@ if __name__ == "__main__":
 
 
     try:
-        input_image = Image.open('Input.png')
+        input_image = Image.open('Input.png').convert('L')
 
     except FileNotFoundError:
     	print("Input file not found!")
