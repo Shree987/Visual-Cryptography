@@ -11,7 +11,7 @@ def encrypt(input_image, share_size):
     for i in range(share_size-1):
         shares[:,:,-1] = (shares[:,:,-1] + shares[:,:,i])%256
 
-    return shares
+    return shares, image
 
 def decrypt(shares):
     (row, column, share_size) = shares.shape
@@ -21,7 +21,7 @@ def decrypt(shares):
 
     final_output = shares_image[:,:,share_size-1]
     output_image = Image.fromarray(final_output.astype(np.uint8))
-    return output_image
+    return output_image, final_output
 
 
 if __name__ == "__main__":
@@ -48,9 +48,14 @@ if __name__ == "__main__":
     print("Input image size (in pixels) : ", input_image.size)   
     print("Number of shares image = ", share_size)
 
-    shares = encrypt(input_image, share_size)
+    shares, input_matrix = encrypt(input_image, share_size)
 
-    output_image = decrypt(shares)
+    for ind in range(share_size):
+        image = Image.fromarray(shares[:,:,ind].astype(np.uint8))
+        name = "MA_Share_" + str(ind+1) + ".png"
+        image.save(name)
+
+    output_image, output_matrix = decrypt(shares)
 
     output_image.save('Output_MA.png')
     print("Image is saved 'Output_MA.png' ...")
