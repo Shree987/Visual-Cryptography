@@ -2,6 +2,7 @@
 
 import numpy as np
 from PIL import Image
+from ColourMetrics import psnr, normxcorr2D
 
 def encrypt(input_image, share_size):
     image = np.asarray(input_image)
@@ -59,3 +60,7 @@ if __name__ == "__main__":
 
     output_image.save('Output_MA.png')
     print("Image is saved 'Output_MA.png' ...")
+    
+    print("Evaluation metrics : ")    
+    print(f"PSNR value is {psnr(input_matrix, output_matrix)} dB")
+    print(f"NCORR value is {normxcorr2D(input_matrix, output_matrix)} shape")
