@@ -30,8 +30,8 @@ if __name__ == "__main__":
     print("Save input image as 'Input.png' in the same folder as this file\n")
 
     try:
-        share_size = int(input("Input the number of shares images you want to create for encrypting (min is 2, max is 100) : "))
-        if share_size < 2 or share_size > 100:
+        share_size = int(input("Input the number of shares images you want to create for encrypting (min is 2, max is 8) : "))
+        if share_size < 2 or share_size > 8:
             raise ValueError
     except ValueError:
     	print("Input is not a valid integer!")
@@ -58,8 +58,8 @@ if __name__ == "__main__":
 
     output_image, output_matrix = decrypt(shares)
 
-    output_image.save('Output_MA.png')
-    print("Image is saved 'Output_MA.png' ...")
+    output_image.save('Output_XOR.png')
+    print("Image is saved 'Output_XOR.png' ...")
 
     print("Evaluation metrics : ")    
     print(f"PSNR value is {psnr(input_matrix, output_matrix)} dB")
