@@ -33,13 +33,14 @@ def encrypt(input_image):
     return secret_share1, secret_share2, input_matrix
 
 
-def decrypt(secret_share1, secret_share2, input_matrix):
+def decrypt(secret_share1, secret_share2):
     '''
     Black -> 0
     White -> 1
 
     White + White -> White ( 1 + 1 -> 1)
     White + Black -> Black ( 1 + 0 -> 0)
+    Black + White -> Black ( 0 + 1 -> 0)
     Black + Black -> Black ( 0 + 0 -> 0)
 
     Best operator to use for this is - bitwise and
@@ -81,7 +82,7 @@ if __name__ == "__main__":
     image2 = Image.fromarray(secret_share2.astype(np.uint8) * 255)
     image2.save("PE_SecretShare_2.png")
 
-    output_matrix = decrypt(secret_share1, secret_share2, input_matrix)
+    output_matrix = decrypt(secret_share1, secret_share2)
     output_image = Image.fromarray(output_matrix.astype(np.uint8) * 255)
 
     output_image.save('Output_PE.png', mode = '1')
