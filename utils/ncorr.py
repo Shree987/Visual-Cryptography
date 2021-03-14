@@ -56,7 +56,7 @@ def normxcorr2D(image, template):
     # the undefined 0/0 condition
     nxcorr = np.where(np.abs(nxcorr-1.) > np.sqrt(np.finfo(nxcorr.dtype).eps),nxcorr,0)
 
-    return nxcorr
+    return np.mean(nxcorr)
 
 def test_ncorr():
     
