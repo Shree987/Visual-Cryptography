@@ -46,19 +46,19 @@ def decrypt(secret_share1, secret_share2):
     Best operator to use for this is - bitwise and
     
     '''
-    matrix = secret_share1 & secret_share2
+    overlap_matrix = secret_share1 & secret_share2
     (row, column) = secret_share1.shape
     row = int(row/2)
     column = int(column/2)
-    output_matrix = np.ones((row, column))
+    extraction_matrix = np.ones((row, column))
 
     for i in range(row):
         for j in range(column):
-            cnt = matrix[2*i][2*j] + matrix[2*i + 1][2*j] + matrix[2*i][2*j + 1] + matrix[2*i + 1][2*j + 1]
+            cnt = overlap_matrix[2*i][2*j] + overlap_matrix[2*i + 1][2*j] + overlap_matrix[2*i][2*j + 1] + overlap_matrix[2*i + 1][2*j + 1]
             if cnt == 0:
-                output_matrix[i][j] = 0
+                extraction_matrix[i][j] = 0
 
-    return output_matrix
+    return overlap_matrix, extraction_matrix
 
 if __name__ == "__main__":
     
@@ -82,12 +82,25 @@ if __name__ == "__main__":
     image2 = Image.fromarray(secret_share2.astype(np.uint8) * 255)
     image2.save("PE_SecretShare_2.png")
 
-    output_matrix = decrypt(secret_share1, secret_share2)
-    output_image = Image.fromarray(output_matrix.astype(np.uint8) * 255)
+    overlap_matrix, extraction_matrix = decrypt(secret_share1, secret_share2)
+    extraction_output = Image.fromarray(extraction_matrix.astype(np.uint8) * 255)
+    overlap_output = Image.fromarray(overlap_matrix.astype(np.uint8) * 255)
 
-    output_image.save('Output_PE.png', mode = '1')
-    print("Image is saved 'Output_PE.png' ...")
+    extraction_output.save('Output_PE(Extraction).png', mode = '1')
+    print("Image is saved 'Output_PE(Extraction).png' ...")
 
-    print("Evaluation metrics : ")    
-    print(f"PSNR value is {psnr(input_matrix, output_matrix)} dB")
-    print(f"NCORR value is {normxcorr2D(input_matrix, output_matrix)} shape")
+    print(input_image.size, overlap_output.size)
+
+    overlap_output = overlap_output.resize(input_image.size)
+    overlap_matrix = np.asarray(overlap_output).astype(np.uint8)
+    overlap_output.save('Output_PE(Overlap).png', mode = '1')
+    print("Image is saved 'Output_PE(Overlap).png' ...\n\n")
+
+    print("Evaluation metrics for Extraction algorithm: ")    
+    print(f"PSNR value is {psnr(input_matrix, extraction_matrix)} dB")
+    print(f"NCORR value is {normxcorr2D(input_matrix, extraction_matrix)} shape")
+
+    print("\n\nEvaluation metrics for Overlap algorithm: ")    
+    print(f"PSNR value is {psnr(input_matrix, overlap_matrix)} dB")
+    print(f"NCORR value is {normxcorr2D(input_matrix, overlap_matrix)} shape")
+
