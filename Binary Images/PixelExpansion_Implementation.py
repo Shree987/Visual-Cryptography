@@ -89,8 +89,6 @@ if __name__ == "__main__":
     extraction_output.save('Output_PE(Extraction).png', mode = '1')
     print("Image is saved 'Output_PE(Extraction).png' ...")
 
-    print(input_image.size, overlap_output.size)
-
     overlap_output = overlap_output.resize(input_image.size)
     overlap_matrix = np.asarray(overlap_output).astype(np.uint8)
     overlap_output.save('Output_PE(Overlap).png', mode = '1')
