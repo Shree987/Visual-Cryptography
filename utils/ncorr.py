@@ -23,7 +23,8 @@ def normxcorr2D(image, template):
     t = np.asarray(template, dtype=np.float64)
     t = t - np.mean(t)
     norm = math.sqrt(np.sum(np.square(t)))
-    t = t / norm
+    if norm != 0:
+        t = t / norm
 
     # create filter to sum values under template
     sum_filter = np.ones(np.shape(t))
@@ -62,8 +63,7 @@ def test_ncorr():
     
     image = Image.open('../Colour Images/Input.png')
     contrast_image = Image.open('../Colour Images/Output_MA.png')
-    
-    print(f"NCORR value is {normxcorr2D(image, contrast_image)} shape")
+    print(f"Mean NCORR value is {normxcorr2D(image, contrast_image)}")
 
 if __name__ == '__main__':
     test_ncorr()
