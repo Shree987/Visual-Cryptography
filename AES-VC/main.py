@@ -43,7 +43,7 @@ class AESCipher:
         iv = Random().read(AES.block_size)
         cipher = AES.new(self.key,AES.MODE_OFB,iv)
         return b64encode(iv + cipher.encrypt(plain_text.encode())).decode()
-
+    
 c = AESCipher(BI,SK.hexdigest()).encrypt()
 
 
@@ -183,7 +183,9 @@ CK = np.ones((h,w,1), dtype = 'uint8')
 
 for i in range(h):
     for j in range(w):
-        ck = P[i][j][0] ^ R[i][j][0]
+        p = int(P[i][j][0])
+        r = int(R[i][j][0])
+        ck = np.bitwise_xor(p,r)
         CK[i][j][0] = ck
 
 K1 = []
@@ -288,7 +290,25 @@ text = ""
 for t in txt:
     text += chr(t)
 
+from Crypto.Cipher import AES
+from Crypto.Random import new as Random
+from hashlib import sha256
+from base64 import b64encode,b64decode
 
+class AESCipher:
+    def __init__(self,data,key):
+        self.block_size = 16
+        self.data = data
+        self.key = sha256(key.encode()).digest()[:32]
+        self.pad = lambda s: s + (self.block_size - len(s) % self.block_size) * chr (self.block_size - len(s) % self.block_size)
+        self.unpad = lambda s: s[:-ord(s[len(s) - 1:])]
+
+    def decrypt(self):
+        cipher_text = b64decode(self.data.encode())
+        iv = cipher_text[:self.block_size]
+        cipher = AES.new(self.key,AES.MODE_OFB,iv)
+        return self.unpad(cipher.decrypt(cipher_text[self.block_size:])).decode()
+        
 de = AESCipher(text,SK1.hexdigest()).decrypt()
 
 
