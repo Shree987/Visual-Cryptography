@@ -96,9 +96,9 @@ if __name__ == "__main__":
 
     print("Evaluation metrics for Extraction algorithm: ")    
     print(f"PSNR value is {psnr(input_matrix, extraction_matrix)} dB")
-    print(f"NCORR value is {normxcorr2D(input_matrix, extraction_matrix)} shape")
+    print(f"Mean NCORR value is {normxcorr2D(input_matrix, extraction_matrix)}")
 
     print("\n\nEvaluation metrics for Overlap algorithm: ")    
     print(f"PSNR value is {psnr(input_matrix, overlap_matrix)} dB")
-    print(f"NCORR value is {normxcorr2D(input_matrix, overlap_matrix)} shape")
+    print(f"Mean NCORR value is {normxcorr2D(input_matrix, overlap_matrix)}")
 

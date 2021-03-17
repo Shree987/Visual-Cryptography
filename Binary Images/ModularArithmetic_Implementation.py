@@ -63,4 +63,4 @@ if __name__ == "__main__":
 
     print("Evaluation metrics : ")    
     print(f"PSNR value is {psnr(input_matrix, output_matrix)} dB")
-    print(f"NCORR value is {normxcorr2D(input_matrix, output_matrix)} shape")
+    print(f"Mean NCORR value is {normxcorr2D(input_matrix, output_matrix)}")

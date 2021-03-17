@@ -61,8 +61,8 @@ def normxcorr2D(image, template):
 
 def test_ncorr():
     
-    image = Image.open('../Colour Images/Input.png')
-    contrast_image = Image.open('../Colour Images/Output_MA.png')
+    image = Image.open('../Input.png')
+    contrast_image = Image.open('../Output.png')
     print(f"Mean NCORR value is {normxcorr2D(image, contrast_image)}")
 
 if __name__ == '__main__':
