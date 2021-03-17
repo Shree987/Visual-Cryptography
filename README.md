@@ -7,6 +7,8 @@ This is a Visual Cryptography implementation as part of Cryptography course proj
 2. Modular Arithmetic Implementation (Binary, Grayscale, and Colour)
 3. Pixel expansion implementation (Binary)
 4. Key + AES encryption implementation (Binary, Grayscale, and Colour)
+5. Halftone CMYK Decomposition (Colour)
+6. Bit-Level Decomposition (Grayscale)
 
 We have planned to use PSNR (Peak Signal-to-Noise Ratio) and NCC (Normalized Cross-Correlation) as a metric to check how the final decrypted image is similar(or related) to the original image.
 
