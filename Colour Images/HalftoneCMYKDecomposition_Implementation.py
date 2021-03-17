@@ -167,8 +167,11 @@ if __name__ == "__main__":
     output_image.save('Output_CMYK.jpg', mode = "RGB")
     print("Image is saved 'Output_CMYK.jpg' ...")
     
-    output_matrix = np.asarray(Image.open('Output_CMYK.jpg'))
-
+    output_image = Image.open('Output_CMYK.jpg')
+    if output_image.mode == 'CMYK':
+        output_image = output_image.convert('RGB')
+    output_matrix = np.asarray(output_image)
+    
     print("Evaluation metrics : ")    
     print(f"PSNR value is {psnr(input_matrix, output_matrix)} dB")
     print(f"Mean NCORR value is {normxcorr2D(input_matrix, output_matrix)}")
