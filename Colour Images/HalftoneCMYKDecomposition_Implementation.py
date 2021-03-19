@@ -3,7 +3,7 @@
 import numpy as np
 from PIL import Image
 from ColourMetrics import psnr, normxcorr2D
-
+import cv2
 def CMYK_Decomposition(input_image):
     input_matrix = np.asarray(input_image)
 
@@ -21,17 +21,17 @@ def CMYK_Decomposition(input_image):
             outfile2.putpixel((x, y),(0,sourcepixel[1],0,0))
             outfile3.putpixel((x, y),(0,0,sourcepixel[2],0))
 
-    outfile1.save('CMYK Share1_1.jpg')
-    outfile2.save('CMYK Share1_2.jpg')
-    outfile3.save('CMYK Share1_3.jpg')
+    outfile1.save('pics/CMYK_Share1_1.jpg')
+    outfile2.save('pics/CMYK_Share1_2.jpg')
+    outfile3.save('pics/CMYK_Share1_3.jpg')
 
     return input_matrix
 
 
 def halftoneConversion():
-    image1 = Image.open("CMYK Share1_1.jpg").convert('1')
-    image2 = Image.open("CMYK Share1_1.jpg").convert('1')
-    image3 = Image.open("CMYK Share1_1.jpg").convert('1')
+    image1 = Image.open("pics/CMYK_Share1_1.jpg").convert('1')
+    image2 = Image.open("pics/CMYK_Share1_2.jpg").convert('1')
+    image3 = Image.open("pics/CMYK_Share1_3.jpg").convert('1')
 
     hf1 = Image.new("CMYK", [dimension for dimension in image1.size])
     hf2 = Image.new("CMYK", [dimension for dimension in image1.size])
@@ -57,15 +57,15 @@ def halftoneConversion():
             else:
                 hf3.putpixel((x, y),(0,0,0,0))
 
-    hf1.save('CMYK Share2_1.jpg')
-    hf2.save('CMYK Share2_2.jpg')
-    hf3.save('CMYK Share2_3.jpg')
+    hf1.save('pics/CMYK_Share2_1.jpg')
+    hf2.save('pics/CMYK_Share2_2.jpg')
+    hf3.save('pics/CMYK_Share2_3.jpg')
 
 
 def generateShares():
-    image1 = Image.open('CMYK Share2_1.jpg').convert('CMYK')
-    image2 = Image.open('CMYK Share2_2.jpg').convert('CMYK')
-    image3 = Image.open('CMYK Share2_3.jpg').convert('CMYK')
+    image1 = Image.open('pics/CMYK_Share2_1.jpg').convert('CMYK')
+    image2 = Image.open('pics/CMYK_Share2_2.jpg').convert('CMYK')
+    image3 = Image.open('pics/CMYK_Share2_3.jpg').convert('CMYK')
 
     share1 = Image.new("CMYK", [dimension * 2 for dimension in image1.size])
     share2 = Image.new("CMYK", [dimension * 2 for dimension in image2.size])
@@ -115,15 +115,15 @@ def generateShares():
                 share3.putpixel((x * 2, y * 2 + 1), (0,0,255,0))
                 share3.putpixel((x * 2 + 1, y * 2 + 1), (0,0,0,0))
 
-    share1.save('CMYK Share3_1.jpg')
-    share2.save('CMYK Share3_2.jpg')
-    share3.save('CMYK Share3_3.jpg')
+    share1.save('pics/CMYK_Share3_1.jpg')
+    share2.save('pics/CMYK_Share3_2.jpg')
+    share3.save('pics/CMYK_Share3_3.jpg')
 
 
 def combineShares():
-    infile1 = Image.open('CMYK Share3_1.jpg')
-    infile2 = Image.open('CMYK Share3_2.jpg')
-    infile3 = Image.open('CMYK Share3_1.jpg')
+    infile1 = Image.open('pics/CMYK_Share3_1.jpg')
+    infile2 = Image.open('pics/CMYK_Share3_2.jpg')
+    infile3 = Image.open('pics/CMYK_Share3_1.jpg')
 
     outfile = Image.new('CMYK', infile1.size)
 
@@ -164,14 +164,15 @@ if __name__ == "__main__":
     output_image = combineShares()
 
     output_image = output_image.resize(input_image.size)
-    output_image.save('Output_CMYK.jpg', mode = "RGB")
+    #output_image.save('Output_CMYK.jpg', mode = "RGB")
+    output_image.save('Output_CMYK.jpg', mode = "CMYK")
     print("Image is saved 'Output_CMYK.jpg' ...")
     
     output_image = Image.open('Output_CMYK.jpg')
     if output_image.mode == 'CMYK':
         output_image = output_image.convert('RGB')
     output_matrix = np.asarray(output_image)
-    
+    print("Output Image Size: ", output_matrix.shape)
     print("Evaluation metrics : ")    
     print(f"PSNR value is {psnr(input_matrix, output_matrix)} dB")
     print(f"Mean NCORR value is {normxcorr2D(input_matrix, output_matrix)}")

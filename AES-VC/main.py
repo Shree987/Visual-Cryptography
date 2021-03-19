@@ -6,6 +6,7 @@ import pandas as pd
 from PIL import Image
 import scipy.misc
 import matplotlib.pyplot as plt
+import cv2
 
 # Reading input Image and encoding it using base64
 with open("test2.jpg", "rb") as img_file:
@@ -80,8 +81,8 @@ for i in range(h):
         P[i][j][0] = p
 filename1 = 'shares/R.png'
 filename2 = 'shares/P.png'
-plt.imsave(filename1, R)
-plt.imsave(filename2, P)
+cv2.imwrite(filename1, R)
+cv2.imwrite(filename2, P)
 
 xdf = pd.DataFrame(columns = ['1','2'])
 a = []
@@ -161,7 +162,7 @@ for each in c:
 text = ""
 for t in txt:
     text += chr(t) + " "
-
+print(len(text))
 f = open("shares/cipher2.txt",'a',encoding='utf-8')
 f.write(text)
 f.close()
@@ -173,8 +174,8 @@ f.close()
 
 f = open("shares/cipher2.txt",'r',encoding='utf-8')
 cipher = f.read()
-P = plt.imread('shares/P.png')
-R = plt.imread('shares/R.png')
+P = cv2.imread('shares/P.png')
+R = cv2.imread('shares/R.png')
 
 h = np.shape(P)[0]
 w = np.shape(P)[1]
@@ -183,9 +184,7 @@ CK = np.ones((h,w,1), dtype = 'uint8')
 
 for i in range(h):
     for j in range(w):
-        p = int(P[i][j][0])
-        r = int(R[i][j][0])
-        ck = np.bitwise_xor(p,r)
+        ck = P[i][j][0] ^ R[i][j][0]
         CK[i][j][0] = ck
 
 K1 = []
@@ -308,12 +307,14 @@ class AESCipher:
         iv = cipher_text[:self.block_size]
         cipher = AES.new(self.key,AES.MODE_OFB,iv)
         return self.unpad(cipher.decrypt(cipher_text[self.block_size:])).decode()
-        
-de = AESCipher(text,SK1.hexdigest()).decrypt()
+
+print(len(text))
+print(len(SK1.hexdigest()))
+de = AESCipher(text, SK1.hexdigest()).decrypt()
 
 
 de = de.encode("utf-8")
 
-with open("DecryptedImg2.png", "wb") as fh:
+with open("AES-VC/DecryptedImg2.png", "wb") as fh:
     fh.write(base64.decodebytes(de))
 
