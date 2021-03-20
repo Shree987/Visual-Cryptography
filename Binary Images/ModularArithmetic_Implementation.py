@@ -54,12 +54,12 @@ if __name__ == "__main__":
 
     for ind in range(share_size):
         image = Image.fromarray(shares[:,:,ind].astype(np.uint8) * 255)
-        name = "PE_Share_" + str(ind+1) + ".png"
+        name = "outputs/MA_Share_" + str(ind+1) + ".png"
         image.save(name)
 
     output_image, output_matrix = decrypt(shares)
-    output_image.save('Output_PE.png', mode = '1')
-    print("Image is saved 'Output_PE.png' ...")
+    output_image.save('outputs/Output_MA.png', mode = '1')
+    print("Image is saved 'Output_MA.png' ...")
 
     print("Evaluation metrics : ")    
     print(f"PSNR value is {psnr(input_matrix, output_matrix)} dB")

@@ -53,12 +53,12 @@ if __name__ == "__main__":
 
     for ind in range(share_size):
         image = Image.fromarray(shares[:,:,ind].astype(np.uint8))
-        name = "XOR_Share_" + str(ind+1) + ".png"
+        name = "outputs/XOR_Share_" + str(ind+1) + ".png"
         image.save(name)
 
     output_image, output_matrix = decrypt(shares)
 
-    output_image.save('Output_XOR.png')
+    output_image.save('outputs/Output_XOR.png')
     print("Image is saved 'Output_XOR.png' ...")
 
     print("Evaluation metrics : ")    

@@ -78,21 +78,21 @@ if __name__ == "__main__":
     secret_share1, secret_share2, input_matrix = encrypt(input_image)
 
     image1 = Image.fromarray(secret_share1.astype(np.uint8) * 255)
-    image1.save("PE_SecretShare_1.png")
+    image1.save("outputs/PE_SecretShare_1.png")
     image2 = Image.fromarray(secret_share2.astype(np.uint8) * 255)
-    image2.save("PE_SecretShare_2.png")
+    image2.save("outputs/PE_SecretShare_2.png")
 
     overlap_matrix, extraction_matrix = decrypt(secret_share1, secret_share2)
     extraction_output = Image.fromarray(extraction_matrix.astype(np.uint8) * 255)
     overlap_output = Image.fromarray(overlap_matrix.astype(np.uint8) * 255)
 
-    extraction_output.save('Output_PE(Extraction).png', mode = '1')
+    extraction_output.save('outputs/Output_PE(Extraction).png', mode = '1')
     print("Image is saved 'Output_PE(Extraction).png' ...")
 
     overlap_output = overlap_output.resize(input_image.size)
     overlap_matrix = np.asarray(overlap_output).astype(np.uint8)
-    overlap_output.save('Output_PE(Overlap).png', mode = '1')
-    print("Image is saved 'Output_PE(Overlap).png' ...\n\n")
+    overlap_output.save('outputs/Output_PE(Overlap).png', mode = '1')
+    print("Image is saved 'outputs/Output_PE(Overlap).png' ...\n\n")
 
     print("Evaluation metrics for Extraction algorithm: ")    
     print(f"PSNR value is {psnr(input_matrix, extraction_matrix)} dB")

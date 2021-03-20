@@ -53,12 +53,12 @@ if __name__ == "__main__":
 
     for ind in range(share_size):
         image = Image.fromarray(shares[:,:,ind].astype(np.uint8))
-        name = "MA_Share_" + str(ind+1) + ".png"
+        name = "outputs/MA_Share_" + str(ind+1) + ".png"
         image.save(name)
 
     output_image, output_matrix = decrypt(shares)
 
-    output_image.save('Output_MA.png')
+    output_image.save('outputs/Output_MA.png')
     print("Image is saved 'Output_MA.png' ...")
     
     print("Evaluation metrics : ")    

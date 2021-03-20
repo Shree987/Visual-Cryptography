@@ -139,20 +139,20 @@ if __name__ == "__main__":
     secret_share1, secret_share2, input_matrix = BLD_encrypt(input_image)
 
     image1 = Image.fromarray(secret_share1.astype(np.uint8))
-    image1.save("BLD_SecretShare_1.png")
+    image1.save("outputs/BLD_SecretShare_1.png")
     image2 = Image.fromarray(secret_share2.astype(np.uint8))
-    image2.save("BLD_SecretShare_2.png")
+    image2.save("outputs/BLD_SecretShare_2.png")
 
     overlap_matrix, extraction_matrix = BLD_decrypt(secret_share1, secret_share2)
     extraction_output = Image.fromarray(extraction_matrix.astype(np.uint8))
     overlap_output = Image.fromarray(overlap_matrix.astype(np.uint8))
 
-    extraction_output.save('Output_BLD(Extraction).png', mode = '1')
+    extraction_output.save('outputs/Output_BLD(Extraction).png', mode = '1')
     print("Image is saved 'Output_BLD(Extraction).png' ...")
 
     overlap_output = overlap_output.resize(input_image.size)
     overlap_matrix = np.asarray(overlap_output).astype(np.uint8)
-    overlap_output.save('Output_BLD(Overlap).png', mode = '1')
+    overlap_output.save('outputs/Output_BLD(Overlap).png', mode = '1')
     print("Image is saved 'Output_BLD(Overlap).png' ...\n\n")
 
     print("Evaluation metrics for Extraction algorithm: ")    
