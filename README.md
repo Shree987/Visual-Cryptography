@@ -17,7 +17,6 @@ We have planned to use PSNR (Peak Signal-to-Noise Ratio) and NCC (Normalized Cro
 2.  [K Krishna Swaroop](https://github.com/geekswaroop) (181CO125)
 
 ## Reference Materials
-1. Papers
   * [Visual Cryptography](https://link.springer.com/content/pdf/10.1007/BFb0053419.pdf)
   * [Applications and usage of visual cryptography: A review](https://ieeexplore.ieee.org/document/7784984)
   * [Visual Cryptography for Gray-scale Images Using
