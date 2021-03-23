@@ -9,7 +9,7 @@ Original file is located at
 
 import base64
 from PIL import Image
-with open("test2.jpg", "rb") as img_file:
+with open("test.jpg", "rb") as img_file:
     BI = base64.b64encode(img_file.read())
 
 BI = BI.decode("utf-8")
@@ -97,10 +97,10 @@ plt.show()
 plt.imshow(R)
 plt.show()
 
-filename = 'pics/R.png'
+filename = 'shares/R.png'
 cv2.imwrite(filename, R)
 
-filename = 'pics/P.png'
+filename = 'shares/P.png'
 cv2.imwrite(filename, P)
 
 """Encrypt CipherText further"""
@@ -201,7 +201,7 @@ for t in txt:
 
 text
 
-f = open("pics/cipher2.txt",'a',encoding='utf-8')
+f = open("shares/cipher.txt",'a',encoding='utf-8')
 f.write(text)
 f.close()
 
@@ -209,8 +209,8 @@ f.close()
 
 cipher = text
 
-P = cv2.imread('pics/P.png')
-R = cv2.imread('pics/R.png')
+P = cv2.imread('shares/P.png')
+R = cv2.imread('shares/R.png')
 
 h = np.shape(P)[0]
 w = np.shape(P)[1]
@@ -345,6 +345,7 @@ print(len(SK1.hexdigest()))
 
 de = de.encode("utf-8")
 
-with open("pics/DecryptedImg2.png", "wb") as fh:
+with open("shares/DecryptedImg.png", "wb") as fh:
     fh.write(base64.decodebytes(de))
 
+print("Image is saved 'DecryptedImg.png' ...")
