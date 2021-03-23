@@ -21,17 +21,19 @@ def CMYK_Decomposition(input_image):
             outfile2.putpixel((x, y),(0,sourcepixel[1],0,0))
             outfile3.putpixel((x, y),(0,0,sourcepixel[2],0))
 
-    outfile1.save('pics/CMYK_Share1_1.jpg')
-    outfile2.save('pics/CMYK_Share1_2.jpg')
-    outfile3.save('pics/CMYK_Share1_3.jpg')
+    outfile1.save('outputs/CMYK_Share1_1.jpg')
+    outfile2.save('outputs/CMYK_Share1_2.jpg')
+    outfile3.save('outputs/CMYK_Share1_3.jpg')
+
+    print("CMYK Decomposition Done!")
 
     return input_matrix
 
 
 def halftoneConversion():
-    image1 = Image.open("pics/CMYK_Share1_1.jpg").convert('1')
-    image2 = Image.open("pics/CMYK_Share1_2.jpg").convert('1')
-    image3 = Image.open("pics/CMYK_Share1_3.jpg").convert('1')
+    image1 = Image.open("outputs/CMYK_Share1_1.jpg").convert('1')
+    image2 = Image.open("outputs/CMYK_Share1_2.jpg").convert('1')
+    image3 = Image.open("outputs/CMYK_Share1_3.jpg").convert('1')
 
     hf1 = Image.new("CMYK", [dimension for dimension in image1.size])
     hf2 = Image.new("CMYK", [dimension for dimension in image1.size])
@@ -57,15 +59,16 @@ def halftoneConversion():
             else:
                 hf3.putpixel((x, y),(0,0,0,0))
 
-    hf1.save('pics/CMYK_Share2_1.jpg')
-    hf2.save('pics/CMYK_Share2_2.jpg')
-    hf3.save('pics/CMYK_Share2_3.jpg')
+    hf1.save('outputs/CMYK_Share2_1.jpg')
+    hf2.save('outputs/CMYK_Share2_2.jpg')
+    hf3.save('outputs/CMYK_Share2_3.jpg')
 
+    print("Halftone Conversion Done!")
 
 def generateShares():
-    image1 = Image.open('pics/CMYK_Share2_1.jpg').convert('CMYK')
-    image2 = Image.open('pics/CMYK_Share2_2.jpg').convert('CMYK')
-    image3 = Image.open('pics/CMYK_Share2_3.jpg').convert('CMYK')
+    image1 = Image.open('outputs/CMYK_Share2_1.jpg').convert('CMYK')
+    image2 = Image.open('outputs/CMYK_Share2_2.jpg').convert('CMYK')
+    image3 = Image.open('outputs/CMYK_Share2_3.jpg').convert('CMYK')
 
     share1 = Image.new("CMYK", [dimension * 2 for dimension in image1.size])
     share2 = Image.new("CMYK", [dimension * 2 for dimension in image2.size])
@@ -115,15 +118,16 @@ def generateShares():
                 share3.putpixel((x * 2, y * 2 + 1), (0,0,255,0))
                 share3.putpixel((x * 2 + 1, y * 2 + 1), (0,0,0,0))
 
-    share1.save('pics/CMYK_Share3_1.jpg')
-    share2.save('pics/CMYK_Share3_2.jpg')
-    share3.save('pics/CMYK_Share3_3.jpg')
+    share1.save('outputs/CMYK_Share3_1.jpg')
+    share2.save('outputs/CMYK_Share3_2.jpg')
+    share3.save('outputs/CMYK_Share3_3.jpg')
 
+    print("Generated Shares!")
 
 def combineShares():
-    infile1 = Image.open('pics/CMYK_Share3_1.jpg')
-    infile2 = Image.open('pics/CMYK_Share3_2.jpg')
-    infile3 = Image.open('pics/CMYK_Share3_1.jpg')
+    infile1 = Image.open('outputs/CMYK_Share3_1.jpg')
+    infile2 = Image.open('outputs/CMYK_Share3_2.jpg')
+    infile3 = Image.open('outputs/CMYK_Share3_1.jpg')
 
     outfile = Image.new('CMYK', infile1.size)
 
@@ -140,6 +144,7 @@ def combineShares():
             outfile.putpixel((x, y+1), (C,M,Y,0))
             outfile.putpixel((x+1, y+1), (C,M,Y,0))
 
+    print("Combined Shares!")
     return outfile
 
 
@@ -156,7 +161,7 @@ if __name__ == "__main__":
 
     print("Image uploaded successfully!")
     print("Input image size (in pixels) : ", input_image.size)   
-    print("Number of shares image = ", 2)
+    print("Number of shares image = ", 2, "\n")
 
     input_matrix = CMYK_Decomposition(input_image)
     halftoneConversion()
@@ -164,11 +169,10 @@ if __name__ == "__main__":
     output_image = combineShares()
 
     output_image = output_image.resize(input_image.size)
-    #output_image.save('Output_CMYK.jpg', mode = "RGB")
-    output_image.save('Output_CMYK.jpg', mode = "CMYK")
-    print("Image is saved 'Output_CMYK.jpg' ...")
+    output_image.save('outputs/Output_CMYK.jpg', mode = "CMYK")
+    print("\nImage is saved 'Output_CMYK.jpg' ...")
     
-    output_image = Image.open('Output_CMYK.jpg')
+    output_image = Image.open('outputs/Output_CMYK.jpg')
     if output_image.mode == 'CMYK':
         output_image = output_image.convert('RGB')
     output_matrix = np.asarray(output_image)
