@@ -23,8 +23,7 @@ SK = hashlib.sha256(K.encode())
 print("The hexadecimal equivalent of SHA256 is : ") 
 print(SK.hexdigest())
 
-!pip install pycrypto
-!pip install opencv-python
+
 
 # AES 256 in OFB mode:
 from Crypto.Cipher import AES
